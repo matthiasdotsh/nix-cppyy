@@ -25,6 +25,8 @@ python3Packages.buildPythonPackage rec {
 
   dontUseCmakeConfigure = true;
 
+  pythonImportCheck = [ "cppyy" ];
+
   meta = with lib; {
     homepage = "https://github.com/wlav/cppyy";
     description = "cppyy: Python-C++ bindings interface based on Cling/LLVM";
