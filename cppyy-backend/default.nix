@@ -1,4 +1,4 @@
-{ lib, python3Packages, fetchPypi, cppyy-cling, cmake, setuptools}:
+{ lib, python3Packages, fetchPypi, cppyy-cling, cmake, setuptools, pip}:
 
 let
   pname = "cppyy-backend";
@@ -13,7 +13,7 @@ python3Packages.buildPythonPackage rec {
     sha256 = "sha256-jQ7BafbqQNJpmaYbJ0zirIgAgujRaqzmoHApM9PYNfw=";
   };
 
-  nativeBuildInputs = [ setuptools cmake cppyy-cling ];
+  nativeBuildInputs = [ setuptools cmake cppyy-cling pip ];
   propagatedBuildInputs = [ cppyy-cling ];
 
   patchPhase = ''
@@ -49,6 +49,14 @@ python3Packages.buildPythonPackage rec {
   '';
 
   dontUseCmakeConfigure = true;
+
+  # I added this custom installPhase to workarround the following error:
+  # FileExistsError: File already exists: /nix/store/ksf8ml68y659fni6pixv488dqm48ppqv-python3.11-cppyy-backend-1.15.2/lib/python3.11/site-packages/cppyy_backend/lib/libcppyy_backend.so
+  installPhase = ''
+    mkdir -p $out
+    env PIP_PREFIX=$out pip install dist/*.whl --no-use-pep517 --no-deps
+  '';
+
 
   pythonImportsCheck = [ "cppyy_backend" ];
 
