@@ -42,9 +42,8 @@ python3Packages.buildPythonPackage rec {
  ];
 
   patchPhase = ''
-    # TODO use patch instead to fail loudly
     # otherwise compiledata.h was not generated
-    sed -i '388s/COMMAND/COMMAND bash/' source/cling/src/cmake/modules/RootConfiguration.cmake 
+    patchShebangs source/cling/src/build/unix/compiledata.sh
 
     # Copy root tarball to desired location
     # because we can't download it on-the-fly inside the sandbox
