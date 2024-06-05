@@ -37,8 +37,8 @@ in {
       mkdir -p .my_cppyy-backend
       cp -r ${pkgs.cppyy-cling}/* .my_cppyy-backend
       chmod -R 777 .my_cppyy-backend
-      cp ${pkgs.cppyy-backend}/lib/python3.11/site-packages/cppyy_backend/lib/libcppyy_backend.so .my_cppyy-backend/lib/python3.11/site-packages/cppyy_backend/lib/
-      export CPPYY_BACKEND_LIBRARY=$PWD/.my_cppyy-backend/lib/python3.11/site-packages/cppyy_backend/lib/libcppyy_backend.so
+      cp ${pkgs.cppyy-backend}/${pkgs.python3.sitePackages}/cppyy_backend/lib/libcppyy_backend.so .my_cppyy-backend/${pkgs.python3.sitePackages}/cppyy_backend/lib/
+      export CPPYY_BACKEND_LIBRARY=$PWD/.my_cppyy-backend/${pkgs.python3.sitePackages}/cppyy_backend/lib/libcppyy_backend.so
     '';
   };
 

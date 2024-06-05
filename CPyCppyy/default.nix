@@ -1,4 +1,12 @@
-{ lib, python3Packages, fetchFromGitHub, cppyy-cling, cppyy-backend, cmake }:
+{
+  lib,
+  python3,
+  python3Packages,
+  fetchFromGitHub,
+  cppyy-cling,
+  cppyy-backend,
+  cmake,
+}:
 
 let
   version = "1.12.16";
@@ -49,7 +57,7 @@ python3Packages.buildPythonPackage rec {
     mkdir -p build
     cmake ../${pname}-${version}
     make
-    cp libcppyy.so $out/lib/python3.11/site-packages/
+    cp libcppyy.so $out/${python3.sitePackages}/
   '';
 
   # Missing from https://cppyy.readthedocs.io/en/latest/repositories.html#building-from-source

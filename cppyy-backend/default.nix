@@ -1,4 +1,13 @@
-{ lib, python3Packages, fetchPypi, cppyy-cling, cmake, setuptools, pip}:
+{
+  lib,
+  python3,
+  python3Packages,
+  fetchPypi,
+  cppyy-cling,
+  cmake,
+  setuptools,
+  pip,
+}:
 
 let
   pname = "cppyy-backend";
@@ -24,7 +33,7 @@ python3Packages.buildPythonPackage rec {
     # but in the cppyy-cling package.
     # In `_cling_config.py` there is a call to `root-config` [2].
     # After building `cppyy-cling` `root-config` is located at
-    # `${cppyy-cling}/lib/python3. 11/site-packages/cppyy_backend/bin/root-config`
+    # `${cppyy-cling}/${python3.sitePackages}/cppyy_backend/bin/root-config`
     # However it's not available from the cppyy-backend buildPhase.
     # When trying to call it, I get a
     # `FileNotFoundError: [Errno 2] No such file or directory: '/nix/store/...-python3.11-cppyy-cling-6.30.0/lib/python3.11/site-packages/cppyy_backend/bin/root-config'` error.
@@ -39,7 +48,7 @@ python3Packages.buildPythonPackage rec {
     sed -i "56s@config_exec_args@#config_exec_args@g" setup.py
     sed -i "57s@config_exec_args@#config_exec_args@g" setup.py
     sed -i "58s@cli_arg@#cli_arg@g" setup.py
-    sed -i "59s|return cli_arg.decode(\"utf-8\").strip()|return '\${cppyy-cling}/lib/python3.11/site-packages/cppyy_backend/include'|" setup.py
+    sed -i "59s|return cli_arg.decode(\"utf-8\").strip()|return '\${cppyy-cling}/${python3.sitePackages}/cppyy_backend/include'|" setup.py
 
     # patch get_cflags() function to return correct flags
     sed -i "62s@config_exec_args@#config_exec_args@g" setup.py
